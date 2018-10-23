@@ -1,0 +1,26 @@
+{
+  "name": "cellgreen-ts",
+  "description": "",
+  "version": "1.0.0",
+  "private": true,
+  "author": "",
+  "scripts": {
+    "win-dev": "SET NODE_ENV=development && nodemon ./bin/www",
+    "dev": "NODE_ENV=development nodemon ./bin/www",
+    "grunt": "grunt",
+    "start": "node ./dist/bin/www.js"
+  },
+  "dependencies": {
+    "@types/express": "^4.16.0",
+    "@types/socket.io": "^1.4.38",
+    "express": "^4.16.4",
+    "grunt": "^1.0.3",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-ts": "^6.0.0-beta.21",
+    "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^3.1.3"
+  }
+}
