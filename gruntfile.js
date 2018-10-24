@@ -63,11 +63,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-node-gyp');
 
   grunt.registerTask("default", [
-    "copy",
     "ts",
     "tslint",
     "gyp:conf",
     "gyp:build",
+    "copy",
   ]);
 
   grunt.registerTask("watch", [
