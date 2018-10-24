@@ -1,12 +1,15 @@
-# TS + Express + Node.js + socketIO
+- TypeScript
+- C++ аддоны
+- Express
+- Node.js
+- Socket.io
+- Grunt автоматизация сборки 
 
 ## Установка
-`$ npm i`
-
-Компилирует TS
-
-`$ npm run grunt`
+`npm i`
 
 ## Старт
 
-`$ npm start`
+`npm run grunt` - копилиция и сборка всего проекта
+
+`npm run grunt-watch` - живая пересборка проекта (livereload)

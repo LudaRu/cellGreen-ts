@@ -1,32 +1,30 @@
-import {createServer, Server} from 'http';
-import * as express from 'express';
-import * as socketIo from 'socket.io';
-import * as path from 'path';
+import { createServer, Server } from "http";
+import express from "express";
+import socketIo from "socket.io";
+import * as path from "path";
 
-import {IndexRoute} from './routes/index';
-import {IndexSocket} from './socket/IndexSocket';
+import * as Addons from "./addons/testAddon";
 
-export class GeneralServer {
+import { IndexRoute } from "./routes/index";
+import { IndexSocket } from "./socket/IndexSocket";
+
+export class App {
     public static readonly PORT: number = 8080;
     private server: Server;
     private port: string | number;
-
     public app: express.Application;
 
-    public static bootstrap(): Server {
-        return new Server();
+    public static bootstrap() {
+        new App();
     }
 
     constructor() {
         this.app = express();
         this.createServer();
+        this.initAddons();
         this.configApp();
         this.routes();
         this.startListen();
-    }
-
-    public getApp(): express.Application {
-        return this.app;
     }
 
     private createServer(): void {
@@ -34,8 +32,12 @@ export class GeneralServer {
     }
 
     public configApp() {
-        this.port = process.env.PORT || GeneralServer.PORT;
+        this.port = process.env.PORT || App.PORT;
         this.app.use(express.static(path.join(__dirname, "public")));
+    }
+
+    public initAddons() {
+        console.log("test c++", Addons.testAddon.hello());
     }
 
     private routes() {
@@ -48,9 +50,8 @@ export class GeneralServer {
 
     private startListen(): void {
         this.server.listen(this.port, () => {
-            console.log('сервер хез бин стартед %s', this.port);
+            console.log(`сервер хез бин стартед http://127.0.0.1:${this.port}`);
         });
-
         new IndexSocket(socketIo(this.server));
     }
 }

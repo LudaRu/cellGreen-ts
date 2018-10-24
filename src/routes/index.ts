@@ -1,5 +1,5 @@
-import {NextFunction, Request, Response, Router} from "express";
-import {BaseRoute} from "./route";
+import { NextFunction, Request, Response, Router } from "express";
+import { BaseRoute } from "./route";
 
 export class IndexRoute extends BaseRoute {
 
@@ -16,7 +16,7 @@ export class IndexRoute extends BaseRoute {
     public index(req: Request, res: Response, next: NextFunction) {
 
         this.title = "Главная";
-        let options: Object = {
+        const options: Object = {
             "message": "Тест msg"
         };
         this.render(req, res, "index", options);

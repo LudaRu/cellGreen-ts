@@ -1,29 +1,29 @@
-import * as socketIo from 'socket.io';
+import * as socketIo from "socket.io";
 
 export class IndexSocket {
     protected io: socketIo.Server;
-    protected MAP; // fixme добавить интерфесы
+    protected MAP: any; // fixme добавить интерфесы
     protected MAX_COL = 10;
     protected MAX_ROW = 7;
 
-    constructor(io) {
+    constructor(io: any) {
         this.io = io;
         this.generateMap();
         this.main();
     }
 
     protected main() {
-        this.io.on('connect', (socket: any) => {
-            console.log('Конектед клиент');
+        this.io.on("connect", (socket: any) => {
+            console.log("Конектед клиент");
 
-            socket.emit('setMap', this.MAP);
+            socket.emit("setMap", this.MAP);
 
-            socket.on('setPosition', (data) => { // установка значения в ячеку
-                this.io.emit('setMap', this.setValCell(data));
+            socket.on("setPosition", (data: any) => { // установка значения в ячеку
+                this.io.emit("setMap", this.setValCell(data));
             });
 
-            socket.on('disconnect', () => {
-                console.log('Дисконектед клиент');
+            socket.on("disconnect", () => {
+                console.log("Дисконектед клиент");
             });
 
         });
