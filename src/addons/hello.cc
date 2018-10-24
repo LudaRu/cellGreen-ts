@@ -13,7 +13,7 @@ namespace demo {
 
         Isolate* isolate = args.GetIsolate();
 
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, "world"));
+        args.GetReturnValue().Set(String::NewFromUtf8(isolate, "Вызван метод из c++"));
     }
 
     void init(Local <Object> exports) {

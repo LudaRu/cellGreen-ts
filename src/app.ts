@@ -3,7 +3,7 @@ import express from "express";
 import socketIo from "socket.io";
 import * as path from "path";
 
-import * as Addons from "./addons/testAddon";
+import * as Addons from "./addons/helloInterface";
 
 import { IndexRoute } from "./routes/index";
 import { IndexSocket } from "./socket/IndexSocket";
@@ -21,10 +21,10 @@ export class App {
     constructor() {
         this.app = express();
         this.createServer();
-        this.initAddons();
         this.configApp();
         this.routes();
         this.startListen();
+        App.initAddons();
     }
 
     private createServer(): void {
@@ -36,8 +36,8 @@ export class App {
         this.app.use(express.static(path.join(__dirname, "public")));
     }
 
-    public initAddons() {
-        console.log("test c++", Addons.testAddon.hello());
+    static initAddons() {
+        console.log("test c++", Addons.helloInterface.hello());
     }
 
     private routes() {
