@@ -3,10 +3,10 @@ import express from "express";
 import socketIo from "socket.io";
 import * as path from "path";
 
-import * as Addons from "./addons/helloInterface";
-
 import { IndexRoute } from "./routes/index";
 import { IndexSocket } from "./socket/IndexSocket";
+
+const VIEW_PATH = "../client";
 
 export class App {
     public static readonly PORT: number = 8080;
@@ -19,12 +19,12 @@ export class App {
     }
 
     constructor() {
+        console.log(__dirname, VIEW_PATH);
         this.app = express();
         this.createServer();
         this.configApp();
         this.routes();
         this.startListen();
-        App.initAddons();
     }
 
     private createServer(): void {
@@ -33,11 +33,7 @@ export class App {
 
     public configApp() {
         this.port = process.env.PORT || App.PORT;
-        this.app.use(express.static(path.join(__dirname, "public")));
-    }
-
-    static initAddons() {
-        console.log("test c++", Addons.helloInterface.hello());
+        this.app.use(express.static(path.join(__dirname, VIEW_PATH)));
     }
 
     private routes() {

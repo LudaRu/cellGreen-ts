@@ -5,18 +5,18 @@ module.exports = function (grunt) {
     copy: {
       build: {
         files: [
-          {
-            expand: true,
-            cwd: "./public",
-            src: ["**"],
-            dest: "./dist/public"
-          },
-          {
-            expand: true,
-            cwd: "./build",
-            src: ["**"],
-            dest: "./dist/build"
-          },
+            {
+                expand: true,
+                cwd: "./src/shared",
+                src: ["**"],
+                dest: "./dist/shared"
+            },
+            {
+                expand: true,
+                cwd: "./src/client",
+                src: ["**"],
+                dest: "./dist/client"
+            },
         ]
       }
     },
@@ -65,8 +65,6 @@ module.exports = function (grunt) {
   grunt.registerTask("default", [
     "ts",
     "tslint",
-    "gyp:conf",
-    "gyp:build",
     "copy",
   ]);
 

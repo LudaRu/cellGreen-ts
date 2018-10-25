@@ -8,8 +8,8 @@
     "win-dev": "SET NODE_ENV=development ./dist/bin/www.js",
     "dev": "NODE_ENV=development ./dist/bin/www.js",
     "grunt": "grunt",
-    "grunt-watch": "grunt watch",
-    "start": "node ./dist/bin/www.js"
+    "grunt-start": "grunt && node ./dist/server/bin/www.js",
+    "start": "node ./dist/server/bin/www.js"
   },
   "dependencies": {
     "express": "^4.16.4",

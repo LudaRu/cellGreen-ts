@@ -1,8 +1,9 @@
 import * as socketIo from "socket.io";
+import { CnvsMap } from "../../shared/inteface/CnvsMap";
 
 export class IndexSocket {
     protected io: socketIo.Server;
-    protected MAP: any; // fixme добавить интерфесы
+    protected MAP: CnvsMap; // fixme добавить интерфесы
     protected MAX_COL = 10;
     protected MAX_ROW = 7;
 
@@ -31,7 +32,7 @@ export class IndexSocket {
 
     // Установка значения в ячеку карты
     protected setValCell(data: any) {
-        this.MAP[data.row][data.col] = {solid: data.solid};
+        this.MAP[data.row][data.col] = {solid: true};
 
         return this.MAP;
     }
