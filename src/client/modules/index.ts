@@ -1,7 +1,6 @@
 /// <reference path="tools/socket.io-client.d.ts"/>
 
-import { CnvsMap } from "../../shared/inteface/CnvsMap";
-
+import { Cnvs } from "../../shared/inteface/CnvsMap";
 
 const socket = io();
 
@@ -10,7 +9,7 @@ let context: any;
 let cellsMap: any;
 cellsMap = [];
 
-socket.on("setMap", function (data: CnvsMap) {
+socket.on("setMap", function (data: Cnvs.Map) {
     console.log(data);
 });
 
@@ -23,12 +22,12 @@ canvas.width = 1000;
 canvas.height = 700;
 context = canvas.getContext("2d");
 
-socket.on("setMap", (cnvMap: CnvsMap[]) => { // Пришла карта с бека
+socket.on("setMap", (cnvMap: Cnvs.Map[]) => { // Пришла карта с бека
     console.log("map", cnvMap);
     cnvMap.forEach((rows: any, rowIndex) => {
 
         cellsMap[rowIndex] = [];
-        rows.forEach((cellData: any,  colIndex: any) => {
+        rows.forEach((cellData: Cnvs.Cell,  colIndex: number) => {
             const cell = new CellMap(colIndex, rowIndex, cellData.solid);
             // отрисуем объект
             cell.fill(cell.solid);
@@ -38,25 +37,42 @@ socket.on("setMap", (cnvMap: CnvsMap[]) => { // Пришла карта с бе�
     });
 });
 
+
+socket.on("changeMap", (deltaMap: any) => {
+    deltaMap.forEach((cellData: any) => {
+        const cell = cellsMap[cellData.rowIndex][cellData.colIndex];
+        cell.fill(cellData.solid);
+    });
+});
+
 // Класс объекта на канвасе (ячейка карты)
 //
 class CellMap {
 
-    row: any;
-    col: any;
+    rowIndex: any;
+    colIndex: any;
     top: any;
     left: any;
     solid: any;
 
     constructor(colI: any, rowI: any, solid: any) {
         // Индексы в массиве объектов
-        this.row = rowI;
-        this.col = colI;
+        this.rowIndex = rowI;
+        this.colIndex = colI;
 
         this.top = colI * cellWidth; // Позиция x
         this.left = rowI * cellHeight; // Позиция y
         this.solid = solid; // Выделение ячейки
     }
+
+    getPack(): Cnvs.Cell {
+        return {
+            rowIndex: this.rowIndex,
+            colIndex: this.rowIndex,
+            solid: this.solid,
+        };
+    }
+
 
     fill(solid: any = undefined) {
         if (solid == undefined) {
@@ -85,15 +101,16 @@ class CellMap {
 //  ========
 
 document.addEventListener("mousedown", (event) => {
-    const cell = getCellByPosition(event.layerX, event.layerY);
-    socket.emit("setPosition", {
-        row: cell.row,
-        col: cell.col,
-    });
+    const cellObj = getCanvasCellByPosition(event.layerX, event.layerY);
+    sendChangeMap(cellObj.getPack());
 });
 
+function sendChangeMap(cellObj: Cnvs.Cell) {
+    socket.emit("setPosition", cellObj);
+}
+
 /* Выборка объекта канваса по X Y курсора*/
-function getCellByPosition(x: any, y: any) {
+function getCanvasCellByPosition(x: any, y: any): CellMap {
     const col = Math.floor(x / cellWidth);
     const row = Math.floor(y / cellHeight);
 

@@ -1,8 +1,11 @@
-export interface CnvsMap {
-    [index: number]: {solid: boolean}[];
-}
+export namespace Cnvs {
+    export interface Map {
+        [index: number]: Cell[];
+    }
 
-export interface CellChange {
-    row: any;
-    col: any;
+    export interface Cell {
+        rowIndex: number;
+        colIndex: number;
+        solid: boolean;
+    }
 }
