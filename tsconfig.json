@@ -2,16 +2,20 @@
   "compileOnSave": true,
   "compilerOptions": {
     "rootDir": "src",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "removeComments" : true ,
     "preserveConstEnums " : true ,
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es6",
+    "target": "es5",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
+    "declaration": false,
     "baseUrl": ".",
+    "isolatedModules": false,
     "paths": {
       "*": [
         "node_modules/*"

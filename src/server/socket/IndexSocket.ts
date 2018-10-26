@@ -1,5 +1,5 @@
 import * as socketIo from "socket.io";
-import { CnvsMap } from "../../shared/inteface/CnvsMap";
+import { CnvsMap, CellChange } from "../../shared/inteface/CnvsMap";
 
 export class IndexSocket {
     protected io: socketIo.Server;
@@ -31,8 +31,9 @@ export class IndexSocket {
     }
 
     // Установка значения в ячеку карты
-    protected setValCell(data: any) {
-        this.MAP[data.row][data.col] = {solid: true};
+    protected setValCell(data: CellChange) {
+        const statusNow = this.MAP[data.row][data.col].solid;
+        this.MAP[data.row][data.col] = {solid: !statusNow};
 
         return this.MAP;
     }

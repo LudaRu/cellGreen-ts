@@ -1,5 +1,9 @@
-interface CnvsMap {
-    [index: number]: {solid: boolean}[];
+export interface CnvsMap {
+    [index: number]: CnvsCel;
 }
 
-export = CnvsMap;
+interface CnvsCel {
+    [index: number]: {solid: boolean};
+}
+
+

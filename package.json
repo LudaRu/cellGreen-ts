@@ -12,6 +12,7 @@
     "start": "node ./dist/server/bin/www.js"
   },
   "dependencies": {
+    "common-js": "^0.3.8",
     "express": "^4.16.4",
     "socket.io": "^2.1.1"
   },
