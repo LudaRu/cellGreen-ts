@@ -7,12 +7,6 @@ module.exports = function (grunt) {
         files: [
             {
                 expand: true,
-                cwd: "./src/shared",
-                src: ["**"],
-                dest: "./dist/shared"
-            },
-            {
-                expand: true,
                 cwd: "./src/client",
                 src: ["*.html"],
                 dest: "./dist/client/"
@@ -33,14 +27,6 @@ module.exports = function (grunt) {
         src: ["src/**/*.ts", "!node_modules/**/*.ts", "!obj/**/*.ts", "!typings/**/*.ts"]
       }
     },
-    gyp: {
-        conf: {
-            command: 'configure',
-        },
-        build: {
-            command: 'build',
-        }
-    },
     watch: {
       ts: {
         files: ["src/**/*.ts"],
@@ -60,7 +46,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-ts");
   grunt.loadNpmTasks("grunt-tslint");
-  grunt.loadNpmTasks('grunt-node-gyp');
 
   grunt.registerTask("default", [
     "ts",

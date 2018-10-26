@@ -1,12 +1,6 @@
 /// <reference path="tools/socket.io-client.d.ts"/>
 
-console.log("asdasd");
-// import CnvsMap = require("./file1");
-import { CnvsMap } from "./file1";
-
-// import CnvsMap = require("./tools/common");
-
-// import CnvsMap from "./file1;
+import { CnvsMap } from "../../shared/inteface/CnvsMap";
 
 
 const socket = io();
@@ -19,14 +13,6 @@ cellsMap = [];
 socket.on("setMap", function (data: CnvsMap) {
     console.log(data);
 });
-
-
-const input = {
-    mouse_angle: 0,
-    mouse_down: false,
-    mouse_wheel: 0,
-    keys: new Array(256),
-};
 
 const cellWidth = 100;
 const cellHeight = 100;
