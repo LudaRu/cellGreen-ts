@@ -5,25 +5,24 @@
   "private": true,
   "author": "",
   "scripts": {
-    "win-dev": "SET NODE_ENV=development ./dist/bin/www.js",
-    "dev": "NODE_ENV=development ./dist/bin/www.js",
-    "grunt": "grunt",
-    "grunt-start": "grunt && node ./dist/server/bin/www.js",
-    "start": "node ./dist/server/bin/www.js"
+    "build": "tsc -p src && npm run copy-static-assets",
+    "watch": "concurrently \"tsc -w -p src\" \"nodemon ./dist/server/app.js\"",
+    "start": "node ./dist/server/app.js",
+    "dev": "concurrently \"tsc -w -p src\" \"node copyStaticAssets.js\"",
+    "copy-static-assets": "node copyStaticAssets.js"
   },
   "dependencies": {
     "common-js": "^0.3.8",
     "express": "^4.16.4",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "systemjs": "^2.1.1"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",
     "@types/socket.io": "^1.4.38",
-    "grunt": "^1.0.3",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-ts": "^6.0.0-beta.21",
-    "grunt-tslint": "^5.0.2",
+    "concurrently": "^4.0.1",
+    "nodemon": "^1.18.5",
+    "shelljs": "^0.8.2",
     "tslint": "^5.11.0",
     "typescript": "^3.1.4"
   }

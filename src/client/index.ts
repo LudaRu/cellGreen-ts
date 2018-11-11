@@ -1,9 +1,13 @@
-/// <reference path="tools/socket.io-client.d.ts"/>
+/// <reference path="modules/tools/socket.io-client.d.ts"/>
+import { EventEmitter }  from "./modules/tools/EventEmitter";
+import { Cnvs } from "../shared/inteface/CnvsMap";
 
-import { Cnvs } from "../../shared/inteface/CnvsMap";
+import { Bresenhame } from "./modules/tools/Bresenhame";
+import { Test } from "./modules/tools/Test";
 
 const socket = io();
-
+const emitter = new EventEmitter();
+const n = new Test.Thing();
 let canvas: any;
 let context: any;
 let cellsMap: any;
@@ -68,11 +72,10 @@ class CellMap {
     getPack(): Cnvs.Cell {
         return {
             rowIndex: this.rowIndex,
-            colIndex: this.rowIndex,
+            colIndex: this.colIndex,
             solid: this.solid,
         };
     }
-
 
     fill(solid: any = undefined) {
         if (solid == undefined) {
@@ -93,15 +96,78 @@ class CellMap {
         context.lineTo(this.top - 0.5, this.left - 0.5);
         context.stroke();
     }
+
+    // Рисуем брезенхеймом
+    static drawLineCellByStartEnd(x1, y1, x2, y2) {
+        const points = Bresenhame(x1, y1, x2, y2);
+        points.forEach(point => {
+            const cell: CellMap =  cellsMap[point.x][point.y];
+            cell.fill();
+        });
+    }
 }
 
 
+function getPontsBresenhame(x1, y1, x2, y2 ) { // fixme сделать асинхронным
+    const deltaX = Math.abs(x2 - x1),
+        deltaY = Math.abs(y2 - y1),
+        signX = x1 < x2 ? 1 : -1,
+        signY = y1 < y2 ? 1 : -1,
+        points = [];
+
+    let error = deltaX - deltaY;
+
+    while (x1 !== x2 || y1 !== y2) {
+        points.push({x: x1, y: y1});
+        const error2 = error * 2;
+        if (error2 > -deltaY) {
+            error -= deltaY;
+            x1 += signX;
+        }
+        if (error2 < deltaX) {
+            error += deltaX;
+            y1 += signY;
+        }
+    }
+    points.push({x: x2, y: y2});
+
+    return points;
+}
+
+
+
 //  =========
-// Events
+// Events - вынести в управление
 //  ========
+
+
+const startStopClick = {
+    start: <any> false,
+    stop: <any> false,
+};
+
+// ЛОгика работы с влагом конча и начала отрезка ( 2 клика по карте)
+function setClickDouble(x, y) {
+    (startStopClick.start) ? startStopClick.stop = {x, y} : startStopClick.start = {x, y};
+
+    // Совершено 2 нажатия
+    if (startStopClick.start && startStopClick.stop) {
+        emitter.emit("clickDouble", startStopClick);
+        startStopClick.start = false;
+        startStopClick.stop = false;
+    }
+}
+
+
+emitter.subscribe("clickDouble", data => {
+    console.log("clickDouble", data);
+    CellMap.drawLineCellByStartEnd(data.start.x, data.start.y, data.stop.x, data.stop.y);
+});
+
 
 document.addEventListener("mousedown", (event) => {
     const cellObj = getCanvasCellByPosition(event.layerX, event.layerY);
+    const StartStop = setClickDouble(event.layerX, event.layerY);
     sendChangeMap(cellObj.getPack());
 });
 
@@ -113,8 +179,5 @@ function sendChangeMap(cellObj: Cnvs.Cell) {
 function getCanvasCellByPosition(x: any, y: any): CellMap {
     const col = Math.floor(x / cellWidth);
     const row = Math.floor(y / cellHeight);
-
-    console.log(`x:${x} y:${y} cellMap[${row}][${col}]`, cellsMap[row][col]);
-
     return cellsMap[row][col];
 }

@@ -20,6 +20,7 @@ export class IndexSocket {
             socket.emit("setMap", this.MAP);
 
             socket.on("setPosition", (data: any) => { // установка значения в ячеку
+                console.log("setPosition", data);
                 this.io.emit("changeMap", [this.setValCell(data)]); // Отослать всем зименение на карте (не всю карту)
             });
 
