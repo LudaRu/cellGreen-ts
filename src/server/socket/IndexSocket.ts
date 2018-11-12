@@ -1,5 +1,5 @@
 import * as socketIo from "socket.io";
-import { Cnvs } from "../../shared/inteface/CnvsMap";
+import { Cnvs } from "../../../common/inteface/CnvsMap";
 
 export class IndexSocket {
     protected io: socketIo.Server;

@@ -1,6 +1,6 @@
 /// <reference path="modules/tools/socket.io-client.d.ts"/>
 import { EventEmitter }  from "./modules/tools/EventEmitter";
-import { Cnvs } from "../shared/inteface/CnvsMap";
+import { Cnvs } from "../../common/inteface/CnvsMap";
 
 import { Bresenhame } from "./modules/tools/Bresenhame";
 import { Test } from "./modules/tools/Test";
