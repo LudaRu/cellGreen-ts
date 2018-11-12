@@ -7,7 +7,6 @@ import { Test } from "./modules/tools/Test";
 
 const socket = io();
 const emitter = new EventEmitter();
-const n = new Test.Thing();
 let canvas: any;
 let context: any;
 let cellsMap: any;
